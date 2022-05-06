@@ -31,9 +31,10 @@ contract Lending {
         isAwaitingLoan[msg.sender] = false;
     }
 
-    function acceptLoanRequest(address _addressToLoanTo) public view {
+    function acceptLoanRequest(address _addressToLoanTo) public {
         // Make sure the lender has enough to actually lend
         require(address(msg.sender).balance >= loanRequests[_addressToLoanTo].amount, "Error: You do not have sufficient funds to lend");
-        msg.sender.transfer(loanRequests[_addressToLoanTo].amount);
+
+        
     }
 }
