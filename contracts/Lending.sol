@@ -31,10 +31,16 @@ contract Lending {
         isAwaitingLoan[msg.sender] = false;
     }
 
-    function acceptLoanRequest(address _addressToLoanTo) public {
+    function acceptLoanRequest(address _addressToLoanTo) public payable{
+        require(isAwaitingLoan[msg.sender] = true, "Error: Address is not awaiting a loan")
         // Make sure the lender has enough to actually lend
         require(address(msg.sender).balance >= loanRequests[_addressToLoanTo].amount, "Error: You do not have sufficient funds to lend");
+        // Have the lender send an amount equal to what the borrower is requesting to
+        // this function. It will be transferred to the borrower right afterwards.
+        require(msg.value = loanRequests[_addressToLoanTo].amount, "Error: Amounts do not match");
 
-        
+        _addressToLoanTo.transfer(msg.value);
     }
+
+    // function payInterest() public {}
 }
